@@ -3,7 +3,8 @@ version: '3.9'
 
 services:
   drupal:
-    image: drupal:9.2.7
+    build: .
+    image: custom-drupal
     ports:
       - '8080:80'
     volumes:
@@ -21,20 +22,14 @@ services:
     image: postgres:14.0
     restart: always
     environment:
-      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-pw
+      POSTGRES_PASSWORD: password
     volumes:
       - type: volume
         source: drupal-db
         target: /var/lib/postgresql/data
-    secrets:
-      - postgres-pw
 
 volumes:
   drupal-modules:
   drupal-profiles:
   drupal-themes:
   drupal-db:
-
-secrets:
-  postgres-pw:
-    external: true
